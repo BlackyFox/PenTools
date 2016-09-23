@@ -21,14 +21,8 @@ import subprocess
 class Progress(git.remote.RemoteProgress):
     def line_dropped(self, line):
         print "\033[K", line, "\r",
-        #sys.stdout.write("\033[K")
-        #sys.stdout.write("\r"+line)
-        #sys.stdout.flush()
     def update(self, *args):
         print "\033[K", self._cur_line, "\r",
-        #sys.stdout.write("\033[K")
-        #sys.stdout.write("\r" + self._cur_line)
-        #sys.stdout.flush()
 
 def signal_handler(signal, frame):
     print('You pressed Ctrl+c!')
@@ -40,7 +34,6 @@ def main(arguments):
     parser.add_argument('-g', '--gitList', default="gitList.csv", help="specify the gitList file")
     parser.add_argument('-p', '--path', default="/opt/", help="installation path (default is /opt)")
     group = parser.add_mutually_exclusive_group(required=False)
-    #parser.add_argument('-d', '--download', help="download only, no installation", action="store_true")
     group.add_argument('-d', '--download', help="download only, no installation", action="store_true")
     parser.add_argument('-v', '--verbose', help="increase output verbosity", action="store_true")
     group.add_argument('-u', '--update', help="update git repositories", action="store_true")
@@ -88,20 +81,13 @@ def updateGits(listFile, path):
             name = row['name']
             if os.path.isdir(path + name):
                 print("  - Updating " + name + "...")
-#                sys.stdout.flush()
                 try:
                     repo = git.Repo(path + name)
-#                    print(repo)
                     g = repo.remotes.origin
-#                    print(g)
                     g.pull(progress=Progress())
                     print "\033[K", colorama.Fore.GREEN + "        Done!"
-#                    sys.stdout.write(colorama.Fore.GREEN + " Done!\n")
-#                    sys.stdout.flush()
                 except:
                     print "\033[K", colorama.Fore.RED + "        Failed!"
-#                    sys.stdout.write(colorama.Fore.RED + " Failed\n")
-#                    sys.stdout.flush()
 
 # Get git repos from CSV file and download them in the given path
 def getGits(listFile, path):
@@ -113,67 +99,16 @@ def getGits(listFile, path):
             url = row['url']
             name = row['name']
             print("  - Getting " + name + "...")
-            #sys.stdout.flush()
             if os.path.exists(path + name):
                 sys.stdout.write(colorama.Fore.YELLOW + "        Already exist! Try updating.\n")
                 sys.stdout.flush()
             else:
                 try:
-                    #repo = git.Repo.init(path + name)
-                    #origin = repo.create_remote('origin', url.rstrip('\n'))
-                    #origin.fetch()
-                    #origin.pull(origin.refs[0].remote_head)
                     git.Repo.clone_from(url.rstrip('\n'), path + name, progress=Progress())
-#                except git.exc.CacheError:
-#                    sys.stdout.write(colorama.Fore.RED + " Failed!\n")
-#                    sys.stdout.flush()
-#                    logging.debug("CacheError")
-#                except git.exc.CheckoutError:
-#                    sys.stdout.write(colorama.Fore.RED + " Failed!\n")
-#                    sys.stdout.flush()
-#                    logging.debug("CheckoutError")
-#                except git.exc.GitCommandError:
-#                    sys.stdout.write(colorama.Fore.RED + " Failed!\n")
-#                    sys.stdout.flush()
-#                    logging.debug("GitCommandError")
-#                except git.exc.GitCommandNotFound:
-#                    sys.stdout.write(colorama.Fore.RED + " Failed!\n")
-#                    sys.stdout.flush()
-#                    logging.debug("GitCommandNotFound")
-#                except git.exc.HookExecutionError:
-#                    sys.stdout.write(colorama.Fore.RED + " Failed!\n")
-#                    sys.stdout.flush()
-#                    logging.debug("HookExecutionError")
-#                except git.exc.InvalidGitRepositoryError:
-#                    sys.stdout.write(colorama.Fore.RED + " Failed!\n")
-#                    sys.stdout.flush()
-#                    logging.debug("InvalidGitRepositoryError")
-#                except git.exc.NoSuchPathError:
-#                    sys.stdout.write(colorama.Fore.RED + " Failed!\n")
-#                    sys.stdout.flush()
-#                    logging.debug("NoSuchPathError")
-#                except git.exc.RepositoryDirtyError:
-#                    sys.stdout.write(colorama.Fore.RED + " Failed!\n")
-#                    sys.stdout.flush()
-#                    logging.debug("RepositoryDirtyError")
-#                except git.exc.UnmergedEntriesError:
-#                    sys.stdout.write(colorama.Fore.RED + " Failed!\n")
-#                    sys.stdout.flush()
-#                    logging.debug("UnmergedEntriesError")
-#                except git.exc.WorkTreeRepositoryUnsupported:
-#                    sys.stdout.write(colorama.Fore.RED + " Failed!\n")
-#                    sys.stdout.flush()
-#                    logging.debug("WorkTreeRepositoryUnsupported")
                 except:
                     print "\033[K", colorama.Fore.RED + "        Failed!"
-                    #sys.stdout.write(colorama.Fore.RED + "        Failed!\n")
-                    #sys.stdout.flush()
-                    #logging.debug("Unknowned error...")
                 else:
                     print "\033[K", colorama.Fore.GREEN + "        Done!"
-                    #sys.stdout.write("\033[K")
-                    #sys.stdout.write(colorama.Fore.GREEN + "\r        Done!\n")
-                    #sys.stdout.flush()
 
 def configure(listFile, path):
     print("Starting configuring tools")
@@ -192,7 +127,6 @@ def configure(listFile, path):
                 print(os.getcwd())
                 try:
                     print(name + ": " + setup)
-                    # os.system(setup)
                     out = subprocess.check_output(setup.split())
                     logging.debug(out)
                 except:
