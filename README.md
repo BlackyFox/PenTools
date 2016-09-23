@@ -2,6 +2,8 @@
 Script getting and installing usefull tools for pentesting
 
 ## Usage
+Right now, the script has only been tested on Kali.2016.2. Execution might not be as expected on other distributions.
+
 To get the tools latests versions from their git (clone them into /opt):
 ```bash
 python get_tools.py -g gitList.csv
@@ -20,6 +22,7 @@ Note that the configuration must be written in the CSV file.
 
 ## Personalize
 You can easily add or delete some tools just by modifying the CSV file.
+
 When you are doing it, you must keep in mind the following rules:
 * The order is the following: url, name, setup commands
 * Always use double quotes `"` and not simple ones
@@ -29,8 +32,7 @@ When you are doing it, you must keep in mind the following rules:
 * Note that every configuration are made inside the tool's directory
 
 ## Credits
-This tool was written by BlackyFox.
-However, it is collection various tools. Thos tools are the following:
+This tool collects various tools during its process. Those ones are the following:
 * [AD Control Path](https://github.com/ANSSI-FR/AD-control-paths)
 * [Brutescrape](https://github.com/cheetz/brutescrape)
 * [CMSmap](https://github.com/Dionach/CMSmap)
