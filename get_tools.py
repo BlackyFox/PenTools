@@ -25,7 +25,7 @@ def signal_handler(signal, frame):
 
 def main(arguments):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-g', '--gitList', default="gitList.txt", help="specify the gitList file")
+    parser.add_argument('-g', '--gitList', default="gitList.csv", help="specify the gitList file")
     parser.add_argument('-p', '--path', default="/opt/", help="installation path (default is /opt)")
     group = parser.add_mutually_exclusive_group(required=False)
     #parser.add_argument('-d', '--download', help="download only, no installation", action="store_true")
