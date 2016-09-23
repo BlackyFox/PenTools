@@ -110,6 +110,7 @@ def getGits(listFile, path):
                 else:
                     print "\033[K", colorama.Fore.GREEN + "        Done!"
 
+# Auto-configure some tools
 def configure(listFile, path):
     print("Starting configuring tools")
     with open(listFile) as rawfile:
@@ -121,14 +122,11 @@ def configure(listFile, path):
             if "NA" in setup or not setup or "TODO" in setup:
                 print("  - Nothing to do for " + name)
             else:
-                sys.stdout.write("  - Configuring " + name + "...")
-                sys.stdout.flush()
+                print("  - Configuring " + name + "...")
                 os.chdir(path + name)
                 print(os.getcwd())
                 try:
-                    print(name + ": " + setup)
-                    out = subprocess.check_output(setup.split())
-                    logging.debug(out)
+                    out = subprocess.call(setup, shell=True)
                 except:
                     sys.stdout.write(colorama.Fore.RED + " Failed!\n")
                     sys.stdout.flush()
