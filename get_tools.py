@@ -17,6 +17,7 @@ import csv
 import signal
 import colorama
 import subprocess
+import ctypes
 
 class Progress(git.remote.RemoteProgress):
     def line_dropped(self, line):
@@ -27,6 +28,15 @@ class Progress(git.remote.RemoteProgress):
 def signal_handler(signal, frame):
     print('You pressed Ctrl+c!')
     exit(0)
+
+def ensureRoot():
+    try:
+        is_admin = os.getuid() == 0
+    except AttributeError:
+        is_admin = ctypes.windll.shell32.IsUserAnAdmin()
+    if not is_admin:
+        print("This script must be run as root!\nExiting...")
+        exit(2)
 
 
 def main(arguments):
@@ -39,6 +49,8 @@ def main(arguments):
     group.add_argument('-u', '--update', help="update git repositories", action="store_true")
     parser.add_argument('-c', '--configure', help="auto configure the tools", action="store_true")
     args = parser.parse_args(arguments)
+
+    ensureRoot()
 
     signal.signal(signal.SIGINT, signal_handler)
     colorama.init(autoreset=True)
