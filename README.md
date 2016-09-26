@@ -1,4 +1,4 @@
-# PenTools
+# PenTools                 [![Build Status](https://travis-ci.org/BlackyFox/PenTools.svg?branch=master)](https://travis-ci.org/BlackyFox/PenTools)
 Script getting and installing usefull tools for pentesting
 
 ## Usage
